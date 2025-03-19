@@ -1,5 +1,9 @@
 package com.example.demo;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -46,9 +50,18 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 	private RegisteredClient convertToRegisteredClient(OAuth2Client client) {
 		return RegisteredClient.withId(client.getClientId()).clientId(client.getClientId())
 				.clientSecret(client.getClientSecret()).redirectUri(client.getRedirectUri())
+				.clientAuthenticationMethod(ClientAuthenticationMethod.NONE) // ✅ Required for PKCE (No client secret
 				.authorizationGrantType(new AuthorizationGrantType(client.getGrantType()))
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST).scope(client.getScope())
+				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN) // ✅ Enable refresh tokens
+				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC) // ✅ Required for
+				.scopes(scopes -> scopes.addAll(parseScopes(client.getScope()))) // client_credentials
 				.clientSettings(ClientSettings.builder().requireProofKey(client.isRequireProofKey()).build()).build();
+	}
+
+	// ✅ Convert "openid profile" (DB format) to Set<String>
+	private Set<String> parseScopes(String scopeString) {
+		return Arrays.stream(scopeString.split(" ")).map(String::trim).collect(Collectors.toSet());
 	}
 }

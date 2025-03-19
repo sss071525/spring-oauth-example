@@ -48,11 +48,11 @@ CREATE INDEX idx_refresh_token_username ON oauth2_refresh_tokens (username);
 
 
 INSERT INTO users (username, password) 
-VALUES ('testuser', '$2a$10$e0MYzXyjpJS7Pd0RVvHwHe/YW8FJ8If1jfybFzvUw52gfV5D6M11W');
--- Password: 'password' (Bcrypt encoded)
+VALUES ('testuser', '$2a$10$B9RhgmgOJVWxILaGWC4Ike.0LvOGcRzWmmN1szhaIeeiINxgrdUyG');
+-- Password: 'angular-secret' (Bcrypt encoded)
 
 INSERT INTO oauth2_clients (client_id, client_secret, redirect_uri, scope, grant_type, require_proof_key) 
-VALUES ('angular-client', '$2a$10$e0MYzXyjpJS7Pd0RVvHwHe/YW8FJ8If1jfybFzvUw52gfV5D6M11W', 'http://localhost:4200/callback', 'openid+profile', 'authorization_code', true);
+VALUES ('angular-client', '$2a$10$B9RhgmgOJVWxILaGWC4Ike.0LvOGcRzWmmN1szhaIeeiINxgrdUyG', 'http://localhost:4200/callback', 'openid+profile', 'authorization_code', true);
 
---password
+--angular-secret
 
