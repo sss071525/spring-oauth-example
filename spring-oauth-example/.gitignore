@@ -1,0 +1,30 @@
+# Ignore compiled class files
+*.class
+target/
+bin/
+
+# Ignore Maven and Gradle directories
+.mvn/
+.gradle/
+build/
+
+# Ignore STS and Eclipse project files
+.classpath
+.project
+.settings/
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore IntelliJ and VS Code settings
+.idea/
+.vscode/
+
+# Ignore environment variables
+.env
+.env.local
+
+# Ignore dependency files
+node_modules/
+/.factorypath
